@@ -4,7 +4,7 @@ iPhone ve Android için Flutter ürün vitrini. Ürün grupları: seramik, fayan
 
 ## Durum
 
-İlk ekran ve veri modeli hazır. Depo boş başladığı için henüz gerçek ürün, katalog ve WhatsApp numarası tanımlı değil. `assets/catalog.json` örnek içeriği uygulamaya paketlenir; bu dosya şu aşamada yalnızca arayüz akışını doğrulamak içindir. Herkese açık ve telefondan yönetilebilir katalog için sonraki aşamada ortak veri servisi, görsel depolama ve yönetici kimlik doğrulaması gerekir. Telefonun içine kaydedilen bir ürün diğer kullanıcıların cihazında görünmez.
+İlk ekran ve veri modeli hazır. İletişim numarası tanımlı. `assets/catalog.json` içindeki dört ürün ve iki katalog taslak içeriktir; gerçek stok olarak yayınlanmamalıdır. Bu dosya şu aşamada arayüz akışını doğrulamak içindir. Herkese açık ve telefondan yönetilebilir katalog için sonraki aşamada ortak veri servisi, görsel depolama ve yönetici kimlik doğrulaması gerekir. Telefonun içine kaydedilen bir ürün diğer kullanıcıların cihazında görünmez.
 
 ## Çalıştırma
 
@@ -16,7 +16,7 @@ flutter pub get
 flutter run
 ```
 
-`flutter create` platform iskeletini üretir; `lib/main.dart`, `pubspec.yaml` ve `assets/catalog.json` bu repoda tutulur. Oluşan Android ve iOS klasörleri sonraki aşamada repoya eklenmelidir. Geliştirme ortamında Flutter SDK olmadığı için burada derleme yapılmadı.
+`flutter create` platform iskeletini üretir; `lib/main.dart`, `pubspec.yaml`, `assets/catalog.json` ve marka görseli bu repoda tutulur. Oluşan Android ve iOS klasörleri sonraki aşamada repoya eklenmelidir. Geliştirme ortamında Flutter SDK olmadığı için burada derleme yapılmadı.
 
 ## Veri biçimi
 
@@ -24,4 +24,8 @@ flutter run
 
 ## Sonraki iş
 
-Ortak veri kaynağı ve yönetici girişi, telefonla ürün ekleme, fotoğrafın perspektif düzeltmesi ve görsel yükleme, gerçek ürünlerin girilmesi, WhatsApp numarasının tanımlanması. Uygulama mağazası dağıtımı ve yalnızca uygulamada açılan ürün bağlantısı da ayrı aşamadır.
+Ortak veri kaynağı ve yönetici girişi, telefonla ürün ekleme, fiyatsız gerçek ürün fotoğrafları, görsel yükleme ve gerçek ürün bilgilerinin doğrulanması. Uygulama mağazası dağıtımı ve yalnızca uygulamada açılan ürün bağlantısı da ayrı aşamadır.
+
+## Marka ve örnek içerik
+
+Gönderilen kare Emir Seramik görseli ana vitrinde kullanılır. Bien 30×60 örneği kullanıcı fotoğrafındaki ürün yazısından alınmıştır; fotoğrafta fiyat bulunduğu için uygulamaya eklenmemiştir. Diğer üç kayıt yalnızca kategori akışını göstermek içindir. Fiyat bilgisi uygulamada gösterilmez.

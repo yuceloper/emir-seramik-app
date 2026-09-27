@@ -6,9 +6,9 @@ import 'package:url_launcher/url_launcher.dart';
 
 void main() => runApp(const EmirSeramikApp());
 
-const _ink = Color(0xFF252827);
-const _sage = Color(0xFF6A786B);
-const _paper = Color(0xFFF7F7F4);
+const _ink = Color(0xFF1B1A19);
+const _sage = Color(0xFF936D58);
+const _paper = Color(0xFFF7F5F1);
 
 enum ProductCategory {
   ceramic('ceramic', 'Seramik', Icons.grid_view_rounded),
@@ -187,6 +187,12 @@ class _StorefrontState extends State<Storefront> {
   Widget _productsView(List<Product> products) => ListView(
         padding: const EdgeInsets.fromLTRB(20, 12, 20, 28),
         children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: Image.asset('assets/brand/emir_seramik.png',
+                height: 190, width: double.infinity, fit: BoxFit.cover),
+          ),
+          const SizedBox(height: 26),
           const Text('Ürünleri keşfet', style: TextStyle(
               fontSize: 30, fontWeight: FontWeight.w700, color: _ink)),
           const SizedBox(height: 5),
@@ -383,8 +389,12 @@ class ProductDetails extends StatelessWidget {
         .where((value) => value.isNotEmpty).join(' ');
     final message = 'Merhaba, $details ürünü hakkında bilgi almak istiyorum.';
     final uri = Uri.https('wa.me', '/$whatsappNumber', {'text': message});
-    if (!await launchUrl(uri, mode: LaunchMode.externalApplication) &&
-        context.mounted) {
+    try {
+      if (await launchUrl(uri, mode: LaunchMode.externalApplication)) return;
+    } catch (_) {
+      // A missing browser or WhatsApp handler is shown as a readable error.
+    }
+    if (context.mounted) {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text('WhatsApp bağlantısı açılamadı.')));
     }

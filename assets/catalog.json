@@ -1,5 +1,60 @@
 {
-  "whatsappNumber": "",
-  "products": [],
-  "catalogs": []
+  "whatsappNumber": "905323754226",
+  "products": [
+    {
+      "id": "bien-30x60",
+      "name": "Bien 30×60 Takım Seramik",
+      "brand": "Bien",
+      "size": "30 × 60 cm",
+      "quality": "1. kalite",
+      "category": "ceramic",
+      "imageUrl": ""
+    },
+    {
+      "id": "fayans-yapistirici-ornek",
+      "name": "Fayans Yapıştırıcı (Örnek)",
+      "brand": "",
+      "size": "",
+      "quality": "",
+      "category": "adhesive",
+      "imageUrl": ""
+    },
+    {
+      "id": "klozet-ornek",
+      "name": "Klozet (Örnek)",
+      "brand": "",
+      "size": "",
+      "quality": "",
+      "category": "toilet",
+      "imageUrl": ""
+    },
+    {
+      "id": "lavabo-ornek",
+      "name": "Lavabo (Örnek)",
+      "brand": "",
+      "size": "",
+      "quality": "",
+      "category": "sink",
+      "imageUrl": ""
+    }
+  ],
+  "catalogs": [
+    {
+      "id": "seramik-seckisi",
+      "title": "Seramik Seçkisi",
+      "description": "Seramik ürünleri",
+      "productIds": [
+        "bien-30x60"
+      ]
+    },
+    {
+      "id": "banyo-seckisi",
+      "title": "Banyo Seçkisi",
+      "description": "Klozet ve lavabolar",
+      "productIds": [
+        "klozet-ornek",
+        "lavabo-ornek"
+      ]
+    }
+  ]
 }

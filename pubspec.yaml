@@ -20,3 +20,4 @@ flutter:
   uses-material-design: true
   assets:
     - assets/catalog.json
+    - assets/brand/emir_seramik.png
