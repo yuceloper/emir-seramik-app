@@ -54,7 +54,7 @@ class _AdminPageState extends State<AdminPage> {
   Future<void> _reload() async {
     try {
       final productRows = await client.from('products')
-          .select('id,name,brand,size,quality,category,image_path,published,sort_order')
+          .select('id,name,brand,size,quality,description,category,image_path,published,sort_order')
           .order('sort_order');
       final catalogRows = await client.from('catalogs')
           .select('id,title,description,published,sort_order,catalog_products(product_id)')
@@ -198,6 +198,7 @@ class _ProductEditorState extends State<ProductEditor> {
   late final brand = TextEditingController(text: widget.product?['brand'] as String? ?? '');
   late final size = TextEditingController(text: widget.product?['size'] as String? ?? '');
   late final quality = TextEditingController(text: widget.product?['quality'] as String? ?? '');
+  late final description = TextEditingController(text: widget.product?['description'] as String? ?? '');
   late ProductCategory category = widget.product == null ? ProductCategory.ceramic
       : ProductCategory.fromKey(widget.product!['category'] as String);
   late bool published = widget.product?['published'] == true;
@@ -207,7 +208,7 @@ class _ProductEditorState extends State<ProductEditor> {
   String? error;
 
   @override
-  void dispose() { name.dispose(); brand.dispose(); size.dispose(); quality.dispose(); super.dispose(); }
+  void dispose() { name.dispose(); brand.dispose(); size.dispose(); quality.dispose(); description.dispose(); super.dispose(); }
 
   Future<void> pickImage(ImageSource source) async {
     XFile? picked;
@@ -247,6 +248,7 @@ class _ProductEditorState extends State<ProductEditor> {
       final payload = {
         'name': name.text.trim(), 'brand': brand.text.trim(),
         'size': size.text.trim(), 'quality': quality.text.trim(),
+        'description': description.text.trim(),
         'category': category.key, 'published': published,
       };
       String id;
@@ -302,6 +304,8 @@ class _ProductEditorState extends State<ProductEditor> {
         TextFormField(controller: brand, decoration: const InputDecoration(labelText: 'Marka')),
         TextFormField(controller: size, decoration: const InputDecoration(labelText: 'Ebat')),
         TextFormField(controller: quality, decoration: const InputDecoration(labelText: 'Kalite')),
+        TextFormField(controller: description, maxLines: 4,
+          decoration: const InputDecoration(labelText: 'Açıklama (isteğe bağlı)', alignLabelWithHint: true)),
         const SizedBox(height: 14),
         SwitchListTile(title: const Text('Yayında'), subtitle: const Text('Açıldığında müşteriler bu ürünü görür.'),
           value: published, onChanged: (value) => setState(() => published = value)),
