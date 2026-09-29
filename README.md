@@ -4,7 +4,7 @@ iPhone ve Android için Flutter ürün vitrini. Ürün grupları: seramik, fayan
 
 ## Durum
 
-İlk ekran ve veri modeli hazır. İletişim numarası tanımlı. `assets/catalog.json` içindeki dört ürün ve iki katalog taslak içeriktir; gerçek stok olarak yayınlanmamalıdır. Bu dosya şu aşamada arayüz akışını doğrulamak içindir. Herkese açık ve telefondan yönetilebilir katalog için sonraki aşamada ortak veri servisi, görsel depolama ve yönetici kimlik doğrulaması gerekir. Telefonun içine kaydedilen bir ürün diğer kullanıcıların cihazında görünmez.
+İlk ekran ve veri modeli hazır. İletişim numarası tanımlı. Supabase yapılandırılmadığında `assets/catalog.json` içindeki dört ürün ve iki katalog yalnızca demo olarak gösterilir; gerçek stok olarak yayınlanmamalıdır. Supabase yapılandırıldığında herkese açık vitrin yayımlanmış ürünleri ve katalogları sunucudan yükler, yönetici bölümünde ise ürün ve katalog ekleme/düzenleme ile fotoğraf yükleme açılır.
 
 ## Çalıştırma
 
@@ -18,13 +18,36 @@ flutter run
 
 `flutter create` platform iskeletini üretir; `lib/main.dart`, `pubspec.yaml`, `assets/catalog.json` ve marka görseli bu repoda tutulur. Oluşan Android ve iOS klasörleri sonraki aşamada repoya eklenmelidir. Geliştirme ortamında Flutter SDK olmadığı için burada derleme yapılmadı.
 
+## Ortak katalog ve yönetici kurulumu
+
+1. Bir Supabase projesi oluşturun. SQL Editor'de `supabase/migrations/20260929_catalog.sql` dosyasını çalıştırın. Bu dosya tabloları, ürün fotoğrafları bucket'ını ve erişim kurallarını oluşturur.
+2. Supabase Authentication içinde kendi e-posta/şifre kullanıcınızı oluşturun. Kullanıcının UUID değerini alın. SQL Editor'de `insert into public.admin_users(user_id) values ('KULLANICI_UUID');` çalıştırın. Yalnızca bu tabloda bulunan hesaplar değişiklik yapabilir.
+3. Proje URL'sini ve **publishable** (veya eski anon) anahtarını uygulamaya derleme sırasında verin. `service_role` / secret key değerini mobil uygulamaya asla koymayın:
+
+```sh
+flutter run \
+  --dart-define=SUPABASE_URL=https://PROJE.supabase.co \
+  --dart-define=SUPABASE_PUBLISHABLE_KEY=PROJE_PUBLISHABLE_KEY
+```
+
+Yönetim simgesi üst sağdadır. Yönetici girişi yapın; yeni ürünler ve kataloglar başlangıçta taslaktır. Fotoğraflar en fazla 10 MB, JPG/PNG/WebP olabilir. Ürün veya katalog için **Yayında** seçeneğini açınca müşteriler görür. Ürün bir kataloğa eklenmek zorunda değildir. Yönetici hesabı oluşturma ve bu SQL adımları bir defalıktır; yönetici e-postası/şifresi GitHub'a yazılmaz.
+
+iPhone için `flutter create` sonrasında `ios/Runner/Info.plist` dosyasına fotoğraf seçimi açıklamasını ekleyin:
+
+```xml
+<key>NSPhotoLibraryUsageDescription</key>
+<string>Ürün fotoğraflarını kataloğa eklemek için fotoğraf arşivine erişim gerekir.</string>
+```
+
+Uygulama içindeki `assets/catalog.json` yalnızca çevrimdışı demo içindir. Supabase yapılandırıldığında demo ürünler canlı ortama otomatik eklenmez. İnternet/veri servisi hatasında boş veya eski katalog göstermek yerine hata ekranı gösterilir.
+
 ## Veri biçimi
 
 `assets/catalog.json` içindeki `whatsappNumber`, ülke koduyla yalnızca rakam olmalı (örnek: `905xxxxxxxxx`). Boşken WhatsApp düğmesi devre dışıdır. Ürünlerin `id`, `name`, `brand`, `size`, `quality`, `category`, `imageUrl` alanları vardır. `category`: `ceramic`, `adhesive`, `toilet`, `sink`. `imageUrl` herkese açık HTTPS görseli olabilir. `catalogs` kayıtları `id`, `title`, `description`, `productIds` içerir. Ürünün bir katalogda yer alması zorunlu değildir.
 
 ## Sonraki iş
 
-Ortak veri kaynağı ve yönetici girişi, telefonla ürün ekleme, fiyatsız gerçek ürün fotoğrafları, görsel yükleme ve gerçek ürün bilgilerinin doğrulanması. Uygulama mağazası dağıtımı ve yalnızca uygulamada açılan ürün bağlantısı da ayrı aşamadır.
+Supabase projesinin kurulması, yönetici hesabının açılması, fiyatsız gerçek ürün fotoğrafları ve bilgilerin doğrulanması. Uygulama mağazası dağıtımı ve yalnızca uygulamada açılan ürün bağlantısı ayrı aşamadır.
 
 ## Marka ve örnek içerik
 

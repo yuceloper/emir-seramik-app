@@ -1,104 +1,35 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
-void main() => runApp(const EmirSeramikApp());
+import 'admin/admin_page.dart';
+import 'data/catalog_data.dart';
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  if (BackendConfig.enabled) {
+    await Supabase.initialize(
+      url: BackendConfig.url,
+      anonKey: BackendConfig.publishableKey,
+    );
+  }
+  runApp(const EmirSeramikApp());
+}
 
 const _ink = Color(0xFF1B1A19);
 const _sage = Color(0xFF936D58);
 const _paper = Color(0xFFF7F5F1);
 
-enum ProductCategory {
-  ceramic('ceramic', 'Seramik', Icons.grid_view_rounded),
-  adhesive('adhesive', 'Fayans yapıştırıcısı', Icons.layers_rounded),
-  toilet('toilet', 'Klozet', Icons.bathroom_rounded),
-  sink('sink', 'Lavabo', Icons.water_drop_outlined);
-
-  const ProductCategory(this.key, this.label, this.icon);
-  final String key;
-  final String label;
-  final IconData icon;
-
-  static ProductCategory fromKey(String key) =>
-      ProductCategory.values.firstWhere((value) => value.key == key);
-}
-
-class Product {
-  const Product({
-    required this.id,
-    required this.name,
-    required this.brand,
-    required this.size,
-    required this.quality,
-    required this.category,
-    required this.imageUrl,
-  });
-
-  final String id;
-  final String name;
-  final String brand;
-  final String size;
-  final String quality;
-  final ProductCategory category;
-  final String imageUrl;
-
-  factory Product.fromJson(Map<String, dynamic> json) => Product(
-        id: json['id'] as String,
-        name: json['name'] as String,
-        brand: json['brand'] as String? ?? '',
-        size: json['size'] as String? ?? '',
-        quality: json['quality'] as String? ?? '',
-        category: ProductCategory.fromKey(json['category'] as String),
-        imageUrl: json['imageUrl'] as String? ?? '',
-      );
-}
-
-class ProductCatalog {
-  const ProductCatalog({
-    required this.id,
-    required this.title,
-    required this.description,
-    required this.productIds,
-  });
-
-  final String id;
-  final String title;
-  final String description;
-  final List<String> productIds;
-
-  factory ProductCatalog.fromJson(Map<String, dynamic> json) => ProductCatalog(
-        id: json['id'] as String,
-        title: json['title'] as String,
-        description: json['description'] as String? ?? '',
-        productIds: List<String>.from(json['productIds'] as List? ?? []),
-      );
-}
-
-class CatalogData {
-  const CatalogData(this.whatsappNumber, this.products, this.catalogs);
-  final String whatsappNumber;
-  final List<Product> products;
-  final List<ProductCatalog> catalogs;
-
-  static Future<CatalogData> load() async {
-    final raw = await rootBundle.loadString('assets/catalog.json');
-    final json = jsonDecode(raw) as Map<String, dynamic>;
-    return CatalogData(
-      json['whatsappNumber'] as String? ?? '',
-      (json['products'] as List? ?? [])
-          .map((item) => Product.fromJson(item as Map<String, dynamic>))
-          .toList(),
-      (json['catalogs'] as List? ?? [])
-          .map((item) => ProductCatalog.fromJson(item as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-}
-
-class EmirSeramikApp extends StatelessWidget {
+class EmirSeramikApp extends StatefulWidget {
   const EmirSeramikApp({super.key});
+
+  @override
+  State<EmirSeramikApp> createState() => _EmirSeramikAppState();
+}
+
+class _EmirSeramikAppState extends State<EmirSeramikApp> {
+  late Future<CatalogData> catalogFuture = CatalogData.load();
+  void refresh() => setState(() => catalogFuture = CatalogData.load());
 
   @override
   Widget build(BuildContext context) => MaterialApp(
@@ -115,7 +46,7 @@ class EmirSeramikApp extends StatelessWidget {
           ),
         ),
         home: FutureBuilder<CatalogData>(
-          future: CatalogData.load(),
+          future: catalogFuture,
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               return const Scaffold(
@@ -127,15 +58,16 @@ class EmirSeramikApp extends StatelessWidget {
                 body: Center(child: CircularProgressIndicator()),
               );
             }
-            return Storefront(data: snapshot.data!);
+            return Storefront(data: snapshot.data!, onRefresh: refresh);
           },
         ),
       );
 }
 
 class Storefront extends StatefulWidget {
-  const Storefront({required this.data, super.key});
+  const Storefront({required this.data, required this.onRefresh, super.key});
   final CatalogData data;
+  final VoidCallback onRefresh;
 
   @override
   State<Storefront> createState() => _StorefrontState();
@@ -169,6 +101,18 @@ class _StorefrontState extends State<Storefront> {
             Text('SERAMİK', style: TextStyle(fontSize: 10, letterSpacing: 5)),
           ],
         ),
+        actions: [
+          IconButton(
+            tooltip: 'Yönetim',
+            icon: const Icon(Icons.manage_accounts_outlined),
+            onPressed: () async {
+              await Navigator.push(context, MaterialPageRoute<void>(
+                builder: (_) => const AdminPage(),
+              ));
+              if (mounted) widget.onRefresh();
+            },
+          ),
+        ],
       ),
       body: tab == 0 ? _productsView(filtered) : _catalogsView(),
       bottomNavigationBar: NavigationBar(
