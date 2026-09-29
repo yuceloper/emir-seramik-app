@@ -30,13 +30,15 @@ flutter run \
   --dart-define=SUPABASE_PUBLISHABLE_KEY=PROJE_PUBLISHABLE_KEY
 ```
 
-Yönetim simgesi üst sağdadır. Yönetici girişi yapın; yeni ürünler ve kataloglar başlangıçta taslaktır. Fotoğraflar en fazla 10 MB, JPG/PNG/WebP olabilir. Ürün veya katalog için **Yayında** seçeneğini açınca müşteriler görür. Ürün bir kataloğa eklenmek zorunda değildir. Yönetici hesabı oluşturma ve bu SQL adımları bir defalıktır; yönetici e-postası/şifresi GitHub'a yazılmaz.
+Yönetim simgesi üst sağdadır. Yönetici girişi yapın; yeni ürünler ve kataloglar başlangıçta taslaktır. Ürün formunda kamerayla anlık fotoğraf çekebilir veya galeriden seçebilirsiniz; fotoğrafı kaydetmeden önce önizleme gösterilir. Fotoğraflar en fazla 10 MB, JPG/PNG/WebP olabilir. Ürün veya katalog için **Yayında** seçeneğini açınca müşteriler görür. Ürün bir kataloğa eklenmek zorunda değildir. Yönetici hesabı oluşturma ve bu SQL adımları bir defalıktır; yönetici e-postası/şifresi GitHub'a yazılmaz.
 
-iPhone için `flutter create` sonrasında `ios/Runner/Info.plist` dosyasına fotoğraf seçimi açıklamasını ekleyin:
+iPhone için `flutter create` sonrasında `ios/Runner/Info.plist` dosyasındaki ana `<dict>` içine fotoğraf ve kamera erişimi açıklamalarını ekleyin:
 
 ```xml
 <key>NSPhotoLibraryUsageDescription</key>
 <string>Ürün fotoğraflarını kataloğa eklemek için fotoğraf arşivine erişim gerekir.</string>
+<key>NSCameraUsageDescription</key>
+<string>Ürün fotoğraflarını çekip kataloğa eklemek için kameraya erişim gerekir.</string>
 ```
 
 Uygulama içindeki `assets/catalog.json` yalnızca geliştirme demosudur. Proje adresi ve publishable key sağlanmazsa bu yerel demo açılır. Demo ürünler canlı ortama otomatik eklenmez. İnternet/veri servisi hatasında boş veya eski katalog göstermek yerine yeniden deneme düğmeli hata ekranı gösterilir.
