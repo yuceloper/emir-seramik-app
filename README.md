@@ -48,9 +48,9 @@ Uygulama içindeki `assets/catalog.json` yalnızca geliştirme demosudur. Proje 
 
 `assets/catalog.json` içindeki `whatsappNumber`, ülke koduyla yalnızca rakam olmalı (örnek: `905xxxxxxxxx`). Boşken WhatsApp düğmesi devre dışıdır. Ürünlerin `id`, `name`, `brand`, `size`, `quality`, `category`, `imageUrl` alanları vardır; `description` isteğe bağlıdır. `category`: `ceramic`, `adhesive`, `toilet`, `sink`. `imageUrl` herkese açık HTTPS görseli olabilir. `catalogs` kayıtları `id`, `title`, `description`, `productIds` içerir. Ürünün bir katalogda yer alması zorunlu değildir.
 
-## Sonraki iş
+## Yayın hazırlığı
 
-Supabase projesinin kurulması, yönetici hesabının açılması, fiyatsız gerçek ürün fotoğrafları ve bilgilerin doğrulanması. Uygulama mağazası dağıtımı ve yalnızca uygulamada açılan ürün bağlantısı ayrı aşamadır.
+Uygulama içindeki gizlilik politikası bağlantısı `PRIVACY.md` dosyasını açar. iOS/Android platform klasörleri, mağaza imzalama, simgeler, ekran görüntüleri ve yayın adımları için [yayın rehberine](docs/RELEASE.md) bakın.
 
 ## Marka ve örnek içerik
 
