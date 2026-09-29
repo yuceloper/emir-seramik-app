@@ -29,7 +29,15 @@ class EmirSeramikApp extends StatefulWidget {
 
 class _EmirSeramikAppState extends State<EmirSeramikApp> {
   late Future<CatalogData> catalogFuture = CatalogData.load();
-  void refresh() => setState(() => catalogFuture = CatalogData.load());
+  Future<void> refresh() async {
+    final next = CatalogData.load();
+    setState(() => catalogFuture = next);
+    try {
+      await next;
+    } catch (_) {
+      // FutureBuilder displays the loading error and retry button.
+    }
+  }
 
   @override
   Widget build(BuildContext context) => MaterialApp(
@@ -46,6 +54,7 @@ class _EmirSeramikAppState extends State<EmirSeramikApp> {
           ),
         ),
         home: FutureBuilder<CatalogData>(
+          key: ValueKey(catalogFuture),
           future: catalogFuture,
           builder: (context, snapshot) {
             if (snapshot.hasError) {
@@ -71,7 +80,7 @@ class _EmirSeramikAppState extends State<EmirSeramikApp> {
 class Storefront extends StatefulWidget {
   const Storefront({required this.data, required this.onRefresh, super.key});
   final CatalogData data;
-  final VoidCallback onRefresh;
+  final Future<void> Function() onRefresh;
 
   @override
   State<Storefront> createState() => _StorefrontState();
@@ -113,7 +122,7 @@ class _StorefrontState extends State<Storefront> {
               await Navigator.push(context, MaterialPageRoute<void>(
                 builder: (_) => const AdminPage(),
               ));
-              if (mounted) widget.onRefresh();
+              if (mounted) await widget.onRefresh();
             },
           ),
         ],
@@ -132,7 +141,10 @@ class _StorefrontState extends State<Storefront> {
     );
   }
 
-  Widget _productsView(List<Product> products) => ListView(
+  Widget _productsView(List<Product> products) => RefreshIndicator(
+        onRefresh: widget.onRefresh,
+        child: ListView(
+        physics: const AlwaysScrollableScrollPhysics(),
         padding: const EdgeInsets.fromLTRB(20, 12, 20, 28),
         children: [
           ClipRRect(
@@ -186,7 +198,7 @@ class _StorefrontState extends State<Storefront> {
               const SizedBox(height: 14),
             ],
         ],
-      );
+      ));
 
   Widget _categoryChip(ProductCategory? item, String label) => Padding(
         padding: const EdgeInsets.only(right: 8),
@@ -236,7 +248,10 @@ class _StorefrontState extends State<Storefront> {
         ),
       );
 
-  Widget _catalogsView() => ListView(
+  Widget _catalogsView() => RefreshIndicator(
+        onRefresh: widget.onRefresh,
+        child: ListView(
+        physics: const AlwaysScrollableScrollPhysics(),
         padding: const EdgeInsets.fromLTRB(20, 12, 20, 28),
         children: [
           const Text('Kataloglar', style: TextStyle(
@@ -287,7 +302,7 @@ class _StorefrontState extends State<Storefront> {
               ),
             ),
         ],
-      );
+      ));
 
   Widget _emptyCard(String message, IconData icon) => Container(
         width: double.infinity,
