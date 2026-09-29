@@ -35,6 +35,7 @@ class Product {
     required this.brand,
     required this.size,
     required this.quality,
+    required this.description,
     required this.category,
     required this.imageUrl,
   });
@@ -44,6 +45,7 @@ class Product {
   final String brand;
   final String size;
   final String quality;
+  final String description;
   final ProductCategory category;
   final String imageUrl;
 
@@ -53,6 +55,7 @@ class Product {
         brand: json['brand'] as String? ?? '',
         size: json['size'] as String? ?? '',
         quality: json['quality'] as String? ?? '',
+        description: json['description'] as String? ?? '',
         category: ProductCategory.fromKey(json['category'] as String),
         imageUrl: json['imageUrl'] as String? ?? '',
       );
@@ -103,7 +106,7 @@ class CatalogData {
 
     final client = Supabase.instance.client;
     final productRows = await client.from('products')
-        .select('id,name,brand,size,quality,category,image_path')
+        .select('id,name,brand,size,quality,description,category,image_path')
         .eq('published', true).order('sort_order');
     final catalogRows = await client.from('catalogs')
         .select('id,title,description,catalog_products(product_id)')
