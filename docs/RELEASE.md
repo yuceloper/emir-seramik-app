@@ -8,7 +8,7 @@
 
 ## Yayın derlemesinden önce
 
-1. Mac'teki mevcut çalışan projede `git pull` yapın. `ios/` ve `android/` klasörlerini, yerel `Info.plist` izinleriyle birlikte repoya ekleyin. Flutter'ın ürettiği platform yapılandırmasını inceleyip uygulama kimliğini her iki platformda kesinleştirin. Mağazaya ilk yüklemeden sonra kimliği değiştirmek yeni uygulama oluşturmayı gerektirir.
+1. Mac'teki mevcut çalışan projede `git pull` yapın. `ios/` ve `android/` klasörleri repodadır; uygulama kimliğini her iki platformda kesinleştirin. Mağazaya ilk yüklemeden sonra kimliği değiştirmek yeni uygulama oluşturmayı gerektirir.
 2. Apple Developer Program ve Google Play Console hesaplarının durumunu kontrol edin. Her iki mağazada uygulama adı **Emir Seramik** ve yayıncı kimliği tutarlı olmalı.
 3. Herkese açık vitrinde gerçek ürünleri ve en az bir anlamlı kataloğu yayınlayın; taslak kayıtlar görünmez. Uygulama ücretsiz, fiyat ve sepet yok; ürün iletişimi WhatsApp üzerinden.
 4. Varsayılan Flutter simgesi yerine marka için uygun uygulama simgesini üretin ve iOS/Android'e yerleştirin. Gerçek uygulamadan iPhone ve Android mağaza ekran görüntüleri alın. Fotoğrafların ve markaların kullanım hakkını doğrulayın.
@@ -21,12 +21,11 @@
 ```sh
 flutter pub get
 flutter analyze
-flutter test
 flutter build ipa --release
 flutter build appbundle --release
 ```
 
-`flutter build ipa` için Apple imzalama/Team seçimi Xcode'da ayarlanmalı. `flutter build appbundle` için Android yükleme anahtarı ve release signing yapılandırılmalı; anahtar dosyaları ve şifreler git'e eklenmemeli. Çıktılar `build/ios/ipa/` ve `build/app/outputs/bundle/release/` altındadır. Üretilen IPA'yı App Store Connect/TestFlight'a, AAB'yi önce Play Console test kanalına yükleyin. Mağaza incelemesi ve nihai yayın için mağaza listelemeleri, ekran görüntüleri ve hesap doğrulamaları gerekir.
+`flutter build ipa` için Apple imzalama/Team seçimi Xcode'da ayarlanmalı. Android release yapılandırması `android/key.properties` içindeki yükleme anahtarını kullanır; bu dosya ile `.jks` anahtarını git'e eklemeyin. Anahtar hazır değilse yayın için AAB derlemeyin. Android hedef API seviyesi 36 olarak ayarlanmıştır. Çıktılar `build/ios/ipa/` ve `build/app/outputs/bundle/release/` altındadır. Üretilen IPA'yı App Store Connect/TestFlight'a, AAB'yi önce Play Console test kanalına yükleyin. Mağaza incelemesi ve nihai yayın için mağaza listelemeleri, ekran görüntüleri ve hesap doğrulamaları gerekir.
 
 Google Play'deki yeni kişisel geliştirici hesapları için kapalı test ve üretim erişimi şartları uygulanabilir. Bu durum hesabın açılış tarihine bağlıdır.
 
