@@ -21,6 +21,7 @@ flutter run
 ## Ortak katalog ve yönetici kurulumu
 
 1. Bir Supabase projesi oluşturun. SQL Editor'de `supabase/migrations/20260929_catalog.sql` dosyasını çalıştırın. Bu dosya tabloları, ürün fotoğrafları bucket'ını ve erişim kurallarını oluşturur.
+   Önceden kurulmuş projede ürün açıklaması için `supabase/migrations/20260929_product_description.sql` dosyasını da SQL Editor'de çalıştırın. Bu adımı uygulamanın yeni sürümünü çalıştırmadan önce yapın; mevcut ürünlerin açıklaması boş kalır.
 2. Supabase Authentication içinde kendi e-posta/şifre kullanıcınızı oluşturun. Kullanıcının UUID değerini alın. SQL Editor'de `insert into public.admin_users(user_id) values ('KULLANICI_UUID');` çalıştırın. Yalnızca bu tabloda bulunan hesaplar değişiklik yapabilir.
 3. Proje URL'si ve **publishable** anahtarı `lib/data/catalog_data.dart` içinde tanımlıdır; normal `flutter run` bu projeye bağlanır. Başka bir projeyi denemek için derleme sırasında değiştirebilirsiniz. `service_role` / secret key değerini mobil uygulamaya asla koymayın:
 
@@ -30,7 +31,7 @@ flutter run \
   --dart-define=SUPABASE_PUBLISHABLE_KEY=PROJE_PUBLISHABLE_KEY
 ```
 
-Yönetim simgesi üst sağdadır. Yönetici girişi yapın; yeni ürünler ve kataloglar başlangıçta taslaktır. Ürün formunda kamerayla anlık fotoğraf çekebilir veya galeriden seçebilirsiniz; fotoğrafı kaydetmeden önce önizleme gösterilir. Fotoğraflar en fazla 10 MB, JPG/PNG/WebP olabilir. Ürün veya katalog için **Yayında** seçeneğini açınca müşteriler görür. Ürün bir kataloğa eklenmek zorunda değildir. Yönetici hesabı oluşturma ve bu SQL adımları bir defalıktır; yönetici e-postası/şifresi GitHub'a yazılmaz.
+Yönetim simgesi üst sağdadır. Yönetici girişi yapın; yeni ürünler ve kataloglar başlangıçta taslaktır. Ürün formunda isteğe bağlı açıklama yazabilir, kamerayla anlık fotoğraf çekebilir veya galeriden seçebilirsiniz; fotoğrafı kaydetmeden önce önizleme gösterilir. Fotoğraflar en fazla 10 MB, JPG/PNG/WebP olabilir. Ürün veya katalog için **Yayında** seçeneğini açınca müşteriler görür. Ürün bir kataloğa eklenmek zorunda değildir. Yönetici hesabı oluşturma ve bu SQL adımları bir defalıktır; yönetici e-postası/şifresi GitHub'a yazılmaz.
 
 iPhone için `flutter create` sonrasında `ios/Runner/Info.plist` dosyasındaki ana `<dict>` içine fotoğraf ve kamera erişimi açıklamalarını ekleyin:
 
@@ -45,7 +46,7 @@ Uygulama içindeki `assets/catalog.json` yalnızca geliştirme demosudur. Proje 
 
 ## Veri biçimi
 
-`assets/catalog.json` içindeki `whatsappNumber`, ülke koduyla yalnızca rakam olmalı (örnek: `905xxxxxxxxx`). Boşken WhatsApp düğmesi devre dışıdır. Ürünlerin `id`, `name`, `brand`, `size`, `quality`, `category`, `imageUrl` alanları vardır. `category`: `ceramic`, `adhesive`, `toilet`, `sink`. `imageUrl` herkese açık HTTPS görseli olabilir. `catalogs` kayıtları `id`, `title`, `description`, `productIds` içerir. Ürünün bir katalogda yer alması zorunlu değildir.
+`assets/catalog.json` içindeki `whatsappNumber`, ülke koduyla yalnızca rakam olmalı (örnek: `905xxxxxxxxx`). Boşken WhatsApp düğmesi devre dışıdır. Ürünlerin `id`, `name`, `brand`, `size`, `quality`, `category`, `imageUrl` alanları vardır; `description` isteğe bağlıdır. `category`: `ceramic`, `adhesive`, `toilet`, `sink`. `imageUrl` herkese açık HTTPS görseli olabilir. `catalogs` kayıtları `id`, `title`, `description`, `productIds` içerir. Ürünün bir katalogda yer alması zorunlu değildir.
 
 ## Sonraki iş
 
