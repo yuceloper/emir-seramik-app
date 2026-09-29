@@ -2,7 +2,7 @@
 
 Son güncelleme: 29 Eylül 2026
 
-Emir Seramik uygulaması, ürünleri ve katalogları görüntülemek ve ürünler hakkında WhatsApp üzerinden iletişime geçmek için hazırlanmıştır. Gizlilikle ilgili sorularınızı **+90 532 375 42 26** numarasına iletebilirsiniz.
+Emir Seramik uygulaması, Ahmet Kuş adına kayıtlı Emir Seramik işletmesi tarafından sunulur. Uygulama, ürünleri ve katalogları görüntülemek ve ürünler hakkında WhatsApp üzerinden iletişime geçmek için hazırlanmıştır. Gizlilikle ilgili sorularınızı **+90 532 375 42 26** numarasına iletebilirsiniz.
 
 ## Uygulamada işlenen veriler
 
