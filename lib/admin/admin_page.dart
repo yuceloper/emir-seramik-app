@@ -209,25 +209,34 @@ class _ProductEditorState extends State<ProductEditor> {
   @override
   void dispose() { name.dispose(); brand.dispose(); size.dispose(); quality.dispose(); super.dispose(); }
 
-  Future<void> pickImage() async {
+  Future<void> pickImage(ImageSource source) async {
     XFile? picked;
     try {
-      picked = await ImagePicker().pickImage(source: ImageSource.gallery,
+      picked = await ImagePicker().pickImage(source: source,
         imageQuality: 85, maxWidth: 2000, requestFullMetadata: false);
     } catch (_) {
-      if (mounted) setState(() => error = 'Fotoğraf seçilemedi. Fotoğraf erişimini kontrol edin.');
+      if (mounted) setState(() => error = source == ImageSource.camera
+          ? 'Fotoğraf çekilemedi. Kamera erişimini kontrol edin.'
+          : 'Fotoğraf seçilemedi. Fotoğraf erişimini kontrol edin.');
       return;
     }
     if (picked == null) return;
     final extension = picked.name.split('.').last.toLowerCase();
     if (!['jpg', 'jpeg', 'png', 'webp'].contains(extension)) {
-      setState(() => error = 'JPG, PNG veya WebP görsel seçin.'); return;
+      if (mounted) setState(() => error = 'JPG, PNG veya WebP görsel seçin.');
+      return;
     }
-    final bytes = await picked.readAsBytes();
-    if (bytes.length > 10 * 1024 * 1024) {
-      setState(() => error = 'Görsel 10 MB altında olmalı.'); return;
+    try {
+      final bytes = await picked.readAsBytes();
+      if (!mounted) return;
+      if (bytes.length > 10 * 1024 * 1024) {
+        setState(() => error = 'Görsel 10 MB altında olmalı.');
+        return;
+      }
+      setState(() { chosenImage = picked; imageBytes = bytes; error = null; });
+    } catch (_) {
+      if (mounted) setState(() => error = 'Fotoğraf açılamadı. Tekrar deneyin.');
     }
-    setState(() { chosenImage = picked; imageBytes = bytes; error = null; });
   }
 
   Future<void> save() async {
@@ -272,7 +281,17 @@ class _ProductEditorState extends State<ProductEditor> {
       body: Form(key: formKey, child: ListView(padding: const EdgeInsets.all(20), children: [
         if (imageBytes != null) Image.memory(imageBytes!, height: 220, fit: BoxFit.contain)
         else if (oldUrl != null) Image.network(oldUrl, height: 220, fit: BoxFit.contain),
-        OutlinedButton.icon(onPressed: busy ? null : pickImage, icon: const Icon(Icons.photo_library_outlined), label: const Text('Fotoğraf seç')),
+        Row(children: [
+          Expanded(child: OutlinedButton.icon(
+            onPressed: busy ? null : () => pickImage(ImageSource.camera),
+            icon: const Icon(Icons.camera_alt_outlined), label: const Text('Fotoğraf çek'),
+          )),
+          const SizedBox(width: 12),
+          Expanded(child: OutlinedButton.icon(
+            onPressed: busy ? null : () => pickImage(ImageSource.gallery),
+            icon: const Icon(Icons.photo_library_outlined), label: const Text('Galeriden seç'),
+          )),
+        ]),
         const SizedBox(height: 16),
         TextFormField(controller: name, decoration: const InputDecoration(labelText: 'Ürün adı *'),
           validator: (value) => value == null || value.trim().isEmpty ? 'Ürün adı gerekli' : null),
