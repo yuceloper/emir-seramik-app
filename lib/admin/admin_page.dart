@@ -281,16 +281,16 @@ class _ProductEditorState extends State<ProductEditor> {
       body: Form(key: formKey, child: ListView(padding: const EdgeInsets.all(20), children: [
         if (imageBytes != null) Image.memory(imageBytes!, height: 220, fit: BoxFit.contain)
         else if (oldUrl != null) Image.network(oldUrl, height: 220, fit: BoxFit.contain),
-        Row(children: [
-          Expanded(child: OutlinedButton.icon(
+        Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+          OutlinedButton.icon(
             onPressed: busy ? null : () => pickImage(ImageSource.camera),
             icon: const Icon(Icons.camera_alt_outlined), label: const Text('Fotoğraf çek'),
-          )),
-          const SizedBox(width: 12),
-          Expanded(child: OutlinedButton.icon(
+          ),
+          const SizedBox(height: 8),
+          OutlinedButton.icon(
             onPressed: busy ? null : () => pickImage(ImageSource.gallery),
             icon: const Icon(Icons.photo_library_outlined), label: const Text('Galeriden seç'),
-          )),
+          ),
         ]),
         const SizedBox(height: 16),
         TextFormField(controller: name, decoration: const InputDecoration(labelText: 'Ürün adı *'),
