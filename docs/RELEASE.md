@@ -9,7 +9,7 @@
 ## Yayın derlemesinden önce
 
 1. Mac'teki mevcut çalışan projede `git pull` yapın. `ios/` ve `android/` klasörleri repodadır; uygulama kimliğini her iki platformda kesinleştirin. Mağazaya ilk yüklemeden sonra kimliği değiştirmek yeni uygulama oluşturmayı gerektirir.
-2. Apple Developer Program ve Google Play Console hesaplarının durumunu kontrol edin. Her iki mağazada uygulama adı **Emir Seramik** ve yayıncı kimliği tutarlı olmalı.
+2. Emir Seramik bir şahıs işletmesi olduğundan Apple Developer Program'a **bireysel** hesapla, Ahmet Kuş'un yasal adıyla kaydolun; App Store'da satıcı adı Ahmet Kuş görünür. Google Play'de bireysel hesap ve Ahmet Kuş adına ödeme profili kullanın; kayıt sırasında gösterilen kimlik doğrulama adımlarını tamamlayın. Uygulama adı her iki mağazada **Emir Seramik** olabilir.
 3. Herkese açık vitrinde gerçek ürünleri ve en az bir anlamlı kataloğu yayınlayın; taslak kayıtlar görünmez. Uygulama ücretsiz, fiyat ve sepet yok; ürün iletişimi WhatsApp üzerinden.
 4. Varsayılan Flutter simgesi yerine marka için uygun uygulama simgesini üretin ve iOS/Android'e yerleştirin. Gerçek uygulamadan iPhone ve Android mağaza ekran görüntüleri alın. Fotoğrafların ve markaların kullanım hakkını doğrulayın.
 5. [Gizlilik politikasını](../PRIVACY.md) işletmenin gerçek veri uygulamalarıyla kontrol edin. App Store Connect ve Play Console gizlilik formlarını uygulamanın gerçek SDK ve backend davranışına göre doldurun. Mağazalar için gizlilik URL'si: `https://github.com/yuceloper/emir-seramik-app/blob/main/PRIVACY.md`.
