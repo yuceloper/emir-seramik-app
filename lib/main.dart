@@ -385,9 +385,7 @@ class ProductDetails extends StatelessWidget {
   final String whatsappNumber;
 
   Future<void> _contact(BuildContext context) async {
-    final details = [product.brand, product.name, product.size]
-        .where((value) => value.isNotEmpty).join(' ');
-    final message = 'Merhaba, $details ürünü hakkında bilgi almak istiyorum.';
+    final message = 'Merhaba, Emir Seramik uygulamasındaki ${product.name} hakkında bilgi almak istiyorum.';
     final uri = Uri.https('wa.me', '/$whatsappNumber', {'text': message});
     try {
       if (await launchUrl(uri, mode: LaunchMode.externalApplication)) return;
