@@ -31,7 +31,7 @@ class _EmirSeramikAppState extends State<EmirSeramikApp> {
   late Future<CatalogData> catalogFuture = CatalogData.load();
   Future<void> refresh() async {
     final next = CatalogData.load();
-    setState(() => catalogFuture = next);
+    setState(() { catalogFuture = next; });
     try {
       await next;
     } catch (_) {
@@ -379,6 +379,13 @@ class ProductDetails extends StatelessWidget {
             if (product.brand.isNotEmpty) _infoRow('Marka', product.brand),
             if (product.size.isNotEmpty) _infoRow('Ebat', product.size),
             if (product.quality.isNotEmpty) _infoRow('Kalite', product.quality),
+            if (product.description.isNotEmpty) ...[
+              const SizedBox(height: 24),
+              const Text('Açıklama', style: TextStyle(
+                  fontSize: 18, fontWeight: FontWeight.w700)),
+              const SizedBox(height: 8),
+              Text(product.description),
+            ],
           ],
         ),
         bottomNavigationBar: SafeArea(
