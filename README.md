@@ -11,12 +11,11 @@ iPhone ve Android için Flutter ürün vitrini. Ürün grupları: seramik, fayan
 Flutter SDK kurulu bir Mac üzerinde depo kökünde:
 
 ```sh
-flutter create --platforms=android,ios --project-name=emir_seramik_app --org=com.emirseramik .
 flutter pub get
 flutter run
 ```
 
-`flutter create` platform iskeletini üretir; `lib/main.dart`, `pubspec.yaml`, `assets/catalog.json` ve marka görseli bu repoda tutulur. Oluşan Android ve iOS klasörleri sonraki aşamada repoya eklenmelidir. Geliştirme ortamında Flutter SDK olmadığı için burada derleme yapılmadı.
+iOS ve Android platform klasörleri repodadır. Geliştirme ortamında Flutter SDK olmadığı için burada derleme yapılmadı.
 
 ## Ortak katalog ve yönetici kurulumu
 
