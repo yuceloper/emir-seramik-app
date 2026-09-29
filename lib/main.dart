@@ -19,6 +19,9 @@ Future<void> main() async {
 const _ink = Color(0xFF1B1A19);
 const _sage = Color(0xFF936D58);
 const _paper = Color(0xFFF7F5F1);
+final _privacyPolicyUrl = Uri.parse(
+  'https://github.com/yuceloper/emir-seramik-app/blob/main/PRIVACY.md',
+);
 
 class EmirSeramikApp extends StatefulWidget {
   const EmirSeramikApp({super.key});
@@ -115,6 +118,23 @@ class _StorefrontState extends State<Storefront> {
           ],
         ),
         actions: [
+          IconButton(
+            tooltip: 'Gizlilik politikası',
+            icon: const Icon(Icons.privacy_tip_outlined),
+            onPressed: () async {
+              try {
+                if (await launchUrl(_privacyPolicyUrl,
+                    mode: LaunchMode.externalApplication)) return;
+              } catch (_) {
+                // Show a readable error if no browser can open the policy.
+              }
+              if (context.mounted) {
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                  content: Text('Gizlilik politikası açılamadı.'),
+                ));
+              }
+            },
+          ),
           IconButton(
             tooltip: 'Yönetim',
             icon: const Icon(Icons.manage_accounts_outlined),
