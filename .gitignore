@@ -9,3 +9,20 @@ coverage/
 *.iml
 .idea/
 .DS_Store
+
+# Local Android tooling and release signing secrets.
+android/.gradle/
+android/local.properties
+android/key.properties
+*.jks
+*.keystore
+
+# Generated iOS files and signing credentials.
+ios/Pods/
+ios/.symlinks/
+ios/Flutter/Generated.xcconfig
+ios/Flutter/flutter_export_environment.sh
+**/xcuserdata/
+*.p12
+*.mobileprovision
+*.p8
