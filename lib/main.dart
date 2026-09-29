@@ -49,8 +49,12 @@ class _EmirSeramikAppState extends State<EmirSeramikApp> {
           future: catalogFuture,
           builder: (context, snapshot) {
             if (snapshot.hasError) {
-              return const Scaffold(
-                body: Center(child: Text('Katalog şu anda açılamıyor.')),
+              return Scaffold(
+                body: Center(child: Column(mainAxisSize: MainAxisSize.min, children: [
+                  const Text('Katalog şu anda açılamıyor.'),
+                  const SizedBox(height: 12),
+                  TextButton(onPressed: refresh, child: const Text('Tekrar dene')),
+                ])),
               );
             }
             if (!snapshot.hasData) {

@@ -5,8 +5,11 @@ import 'package:flutter/services.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class BackendConfig {
-  static const url = String.fromEnvironment('SUPABASE_URL');
-  static const publishableKey = String.fromEnvironment('SUPABASE_PUBLISHABLE_KEY');
+  // These are public client identifiers. RLS, not key secrecy, protects writes.
+  static const url = String.fromEnvironment('SUPABASE_URL',
+      defaultValue: 'https://yroweqbyzvbhtdnndiwh.supabase.co');
+  static const publishableKey = String.fromEnvironment('SUPABASE_PUBLISHABLE_KEY',
+      defaultValue: 'sb_publishable_bNZOCkxd-14yEKqQ0VITkQ_YTUMGYYR');
   static bool get enabled => url.isNotEmpty && publishableKey.isNotEmpty;
 }
 
